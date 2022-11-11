@@ -23,7 +23,3 @@ https://admin.moralis.io/web3apis
 #### Auth API Reference
 
 https://docs.moralis.io/reference/auth-api-overview
-
-#### Youtube Video:
-
-https://www.youtube.com/watch?v=B-ntLw3YDD4
