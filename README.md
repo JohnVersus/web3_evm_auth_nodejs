@@ -1,6 +1,6 @@
 # Web3 EVM Authentication Node Js
 
-Authentication tutorial on how to connect user with solana wallet to the app.
+Authentication tutorial on how to connect user with metamask wallet to the app.
 
 ## Setup
 
