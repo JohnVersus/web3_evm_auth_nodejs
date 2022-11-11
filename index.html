@@ -16,7 +16,7 @@
       </p>
     </div>
   </body>
-  <script src="https://cdnout.com/ethers"></script>
+  <script src="https://cdn.ethers.io/scripts/ethers-v4.min.js"></script>
   <script>
     // Space for Client Js code
     if (window.ethereum !== "undefined") {
@@ -24,7 +24,7 @@
     } else {
       throw new Error("Metamask wallet is required!!");
     }
-    const provider = new _ethers.providers.Web3Provider(window.ethereum);
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
     const requestMsg = async () => {
       const chain = await window.ethereum.request({ method: "eth_chainId" });
       const address = await provider.send("eth_requestAccounts", []);
