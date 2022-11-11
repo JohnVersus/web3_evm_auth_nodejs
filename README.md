@@ -13,7 +13,7 @@ npm install
 ### Run express app using
 
 ```
-npx nodemon auth.js
+npm start
 ```
 
 #### Get the Moralis API key from

@@ -1,15 +1,19 @@
 const express = require("express");
 const app = express();
-app.listen(8000);
 app.use(express.json());
+
 const { readFile } = require("fs").promises;
 require("dotenv").config();
 const Moralis = require("moralis").default;
-const base58 = require("bs58");
 const jwt = require("jsonwebtoken");
 
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
+
+const port = 8080;
+app.listen(port, () => {
+  console.log(`App started on port http://localhost:${port} !!!`);
+});
 
 app.get("/", async (req, res) => {
   res.send(await readFile("./index.html", "utf8"));
@@ -23,18 +27,18 @@ const init = async () => {
 init();
 
 app.post("/requestMessage", async (req, res) => {
-  const { address } = req.body;
-
+  const { address, chain } = req.body;
+  console.log({ address, chain });
   const response = await Moralis.Auth.requestMessage({
-    network: "solana",
-    solNetwork: "devnet",
+    networkType: "evm",
+    chain,
     address: address,
     domain: "localhost",
     statement: "Sign the message to authenticate",
     uri: "http://localhost:8000/",
     timeout: 60,
   }).catch((e) => {
-    res.status(400).json({ e });
+    return res.status(400).json({ e });
   });
 
   res.status(200).json({ data: response });
@@ -42,15 +46,16 @@ app.post("/requestMessage", async (req, res) => {
 
 app.post("/verifySignature", async (req, res) => {
   const { signature, message } = req.body;
+  console.log({ signature, message });
   const response = await Moralis.Auth.verify({
     message,
-    signature: base58.encode(signature.data),
-    network: "solana",
+    signature: signature,
+    network: "evm",
   }).catch((e) => {
-    res.status(400).json(e);
+    return res.status(400).json(e);
   });
   const token = jwt.sign(response.data, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "10000s",
+    expiresIn: "36000s",
   });
 
   res
